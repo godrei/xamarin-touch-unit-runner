@@ -1,3 +1,6 @@
 [submodule "Touch.Unit"]
 	path = Touch.Unit
 	url = git@github.com:spouliot/Touch.Unit.git
+[submodule "steps-xamarin-builder"]
+	path = steps-xamarin-builder
+	url = git@github.com:bitrise-steplib/steps-xamarin-builder.git
