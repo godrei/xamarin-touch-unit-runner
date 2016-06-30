@@ -1,0 +1,29 @@
+title: Touch.Unit runner
+summary: Touch.Unit runner
+description: |-
+  Executes a set of Touch.Unit tests on device or simulator
+website: https://github.com/olegoid/xamarin-touch-unit-runner
+source_code_url: https://github.com/olegoid/xamarin-touch-unit-runner
+support_url: https://github.com/olegoid/xamarin-touch-unit-runner/issues
+host_os_tags:
+  - osx-10.10
+project_type_tags:
+- xamarin
+- test
+type_tags: []
+is_requires_admin_user: false
+is_always_run: false
+is_skippable: false
+inputs:
+  - xamarin_solution: $BITRISE_PROJECT_PATH
+    opts:
+      title: Path to Xamarin Solution
+      description: |
+        Path to Xamarin Solution
+      is_required: true
+  - xamarin_configuration: $BITRISE_XAMARIN_CONFIGURATION
+    opts:
+      title: Xamarin project configuration
+      description: |
+        Xamarin project configuration
+      is_required: true
