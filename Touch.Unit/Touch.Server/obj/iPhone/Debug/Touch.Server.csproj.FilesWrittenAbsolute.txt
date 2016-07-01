@@ -1,5 +1,0 @@
-/Users/olegoid/Projects/Touch.Unit/Touch.Server/obj/iPhone/Debug/.NETFramework,Version=v4.0.AssemblyAttribute.cs
-/Users/olegoid/Projects/Touch.Unit/Touch.Server/bin/Debug/Touch.Server.exe.mdb
-/Users/olegoid/Projects/Touch.Unit/Touch.Server/bin/Debug/Touch.Server.exe
-/Users/olegoid/Projects/Touch.Unit/Touch.Server/obj/iPhone/Debug/Touch.Server.exe
-/Users/olegoid/Projects/Touch.Unit/Touch.Server/obj/iPhone/Debug/Touch.Server.exe.mdb

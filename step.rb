@@ -8,8 +8,7 @@ require_relative 'xamarin-builder/builder'
 # --- Constants
 # -----------------------
 
-TOUCH_SERVER_PROJ = "./Touch.Unit/Touch.Server/Touch.Server.csproj"
-TOUCH_SERVER = "./Touch.Unit/Touch.Server/bin/Debug/Touch.Server.exe"
+TOUCH_SERVER = "./Touch.Server.exe"
 
 # -----------------------
 # --- Functions
@@ -64,9 +63,6 @@ fail_with_message('No configuration environment found') unless options[:configur
 # Main
 builder = Builder.new(options[:solution], options[:configuration], options[:platform], nil)
 begin
-  # Build Touch.Unit server
-  puts `xbuild #{TOUCH_SERVER_PROJ}`
-
   # The solution has to be built before runing the Touch.Unit tests
   builder.build_solution
 
