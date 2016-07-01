@@ -114,8 +114,8 @@ begin
   else
   	fail_with_message('Cant find test logs file')
   end
-  
-  raise 'Test failed' if result['Failed'] != '0'
+
+  raise 'Test failed' if results['Failed'] != '0'
 rescue => ex
   error_with_message(ex.inspect.to_s)
   error_with_message('--- Stack trace: ---')
