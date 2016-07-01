@@ -61,11 +61,11 @@ dir = Dir.mktmpdir
 
 begin
   `git clone git@github.com:spouliot/Touch.Unit.git #{dir}`
-  server_project_path = File.join(dir, 'Touch.Unit', 'Touch.Server', 'Touch.Server.csproj')
+  server_project_path = File.join(dir, 'Touch.Server', 'Touch.Server.csproj')
   puts `xbuild #{server_project_path}`
   
   exe_files = []
-  Find.find(server_project_path) do |path|
+  Find.find(File.join(dir, 'Touch.Server/bin/Debug/')) do |path|
     exe_files << path if path =~ /.*\.exe$/
   end
   touch_server_exe = exe_files.first
