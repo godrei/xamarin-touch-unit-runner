@@ -1,6 +1,7 @@
 require 'optparse'
 require 'fileutils'
 require 'tmpdir'
+require 'find'
 
 require_relative 'xamarin-builder/builder'
 
