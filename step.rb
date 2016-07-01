@@ -5,12 +5,6 @@ require 'tmpdir'
 require_relative 'xamarin-builder/builder'
 
 # -----------------------
-# --- Constants
-# -----------------------
-
-TOUCH_SERVER = "Touch.Server.exe"
-
-# -----------------------
 # --- Functions
 # -----------------------
 
@@ -62,9 +56,18 @@ fail_with_message('No configuration environment found') unless options[:configur
 #
 # Main
 builder = Builder.new(options[:solution], options[:configuration], options[:platform], nil)
+dir = Dir.mktmpdir
+
 begin
-  puts `ls -LR`
-  
+  `git clone git@github.com:spouliot/Touch.Unit.git #{dir}`
+  server_project_path = File.join(dir, "Touch.Unit", "Touch.Server")
+  `xbuild #{server_project_path}`
+  touch_server_exe = Dir[File.join(dir, TOUCH_SERVER)].first
+
+  unless touch_server_exe
+  	error_with_message('Touch.Server.exe was not found')
+  end
+
   # The solution has to be built before runing the Touch.Unit tests
   builder.build_solution
 
@@ -80,7 +83,7 @@ begin
   error_with_message('*.app required to run Touch.Unit tests') unless app_file
 
   # run app on simulator with mono debugger attached
-  puts `mono --debug #{TOUCH_SERVER} --launchsim #{app_file} -autoexit -logfile=test.log`
+  puts `mono --debug #{touch_server_exe} --launchsim #{app_file} -autoexit -logfile=test.log`
 
   result = Hash.new
 
@@ -109,4 +112,7 @@ rescue => ex
   error_with_message('--- Stack trace: ---')
   error_with_message(ex.backtrace.to_s)
   exit(1)
+ensure
+  # remove the directory.
+  FileUtils.remove_entry dir
 end
