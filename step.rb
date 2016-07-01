@@ -8,7 +8,7 @@ require_relative 'xamarin-builder/builder'
 # --- Constants
 # -----------------------
 
-TOUCH_SERVER = "./Touch.Server.exe"
+TOUCH_SERVER = "Touch.Server.exe"
 
 # -----------------------
 # --- Functions
