@@ -62,7 +62,7 @@ begin
   `git clone git@github.com:spouliot/Touch.Unit.git #{dir}`
   server_project_path = File.join(dir, "Touch.Unit", "Touch.Server")
   `xbuild #{server_project_path}`
-  touch_server_exe = Dir[File.join(dir, TOUCH_SERVER)].first
+  touch_server_exe = Dir[File.join(dir, "Touch.Server.exe")].first
 
   unless touch_server_exe
   	error_with_message('Touch.Server.exe was not found')
