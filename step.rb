@@ -26,9 +26,9 @@ end
 #
 # Parse options
 options = {
-  solution: "/Users/olegoid/Projects/xamarin.ios.rocks/Rocks.sln",
-  configuration: "Debug",
-  platform: "iPhoneSimulator"
+  solution: nil,
+  configuration: nil,
+  platform: nil
 }
 
 parser = OptionParser.new do |opts|
@@ -79,19 +79,28 @@ begin
   # run app on simulator with mono debugger attached
   `mono --debug #{TOUCH_SERVER} --launchsim #{app_file} -autoexit -logfile=test.log`
 
+  result = Hash.new
+
   # check test logs
   if File.exist?('test.log')
   	File.open('test.log', "r") do |f|
   	  f.each_line do |line|
         puts line
+        if line.start_with?('Tests run')
+        	line.gsub (/[a-zA-z]*: [0-9]*/) { |s|
+        	  s.delete!(' ')
+        	  test_result = s.split(/:/)
+        	  result[test_result.first] = test_result.last
+        	}
+        end
       end
     end
   else
-  	error_with_message('Cant find test logs')
+  	error_with_message('Cant find test logs file')
   end
 
   # show results
-
+  raise 'Test failed' if result['Failed'] != '0'
 rescue => ex
   error_with_message(ex.inspect.to_s)
   error_with_message('--- Stack trace: ---')

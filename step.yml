@@ -27,3 +27,9 @@ inputs:
       description: |
         Xamarin project configuration
       is_required: true
+  - xamarin_platform: $BITRISE_XAMARIN_PLATFORM
+    opts:
+      title: Xamarin solution platform
+      description: |
+        Xamarin solution platform
+      is_required: true
