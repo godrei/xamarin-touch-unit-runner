@@ -63,6 +63,8 @@ fail_with_message('No configuration environment found') unless options[:configur
 # Main
 builder = Builder.new(options[:solution], options[:configuration], options[:platform], nil)
 begin
+  puts `ls -LR`
+  
   # The solution has to be built before runing the Touch.Unit tests
   builder.build_solution
 
@@ -78,7 +80,7 @@ begin
   error_with_message('*.app required to run Touch.Unit tests') unless app_file
 
   # run app on simulator with mono debugger attached
-  `mono --debug #{TOUCH_SERVER} --launchsim #{app_file} -autoexit -logfile=test.log`
+  puts `mono --debug #{TOUCH_SERVER} --launchsim #{app_file} -autoexit -logfile=test.log`
 
   result = Hash.new
 
