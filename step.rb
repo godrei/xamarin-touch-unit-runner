@@ -62,10 +62,15 @@ begin
   `git clone git@github.com:spouliot/Touch.Unit.git #{dir}`
   server_project_path = File.join(dir, "Touch.Unit", "Touch.Server")
   `xbuild #{server_project_path}`
-  touch_server_exe = Dir[File.join(dir, "Touch.Server.exe")].first
+  
+  exe_files = []
+  Find.find(server_project_path) do |path|
+    exe_files << path if path =~ /.*\.exe$/
+  end
+  touch_server_exe = exe_files.first
 
   unless touch_server_exe
-  	error_with_message('Touch.Server.exe was not found')
+  	fail_with_message('Touch.Server.exe was not found')
   end
 
   # The solution has to be built before runing the Touch.Unit tests
@@ -73,14 +78,14 @@ begin
 
   output = builder.generated_files
 
-  error_with_message('no output generated') if output.nil? || output.empty?
+  fail_with_message('no output generated') if output.nil? || output.empty?
   app_file = nil
 
   output.each do |_, project_output|
     app_file = project_output[:app] if project_output[:api] == Api::IOS
   end
 
-  error_with_message('*.app required to run Touch.Unit tests') unless app_file
+  fail_with_message('*.app required to run Touch.Unit tests') unless app_file
 
   # run app on simulator with mono debugger attached
   puts `mono --debug #{touch_server_exe} --launchsim #{app_file} -autoexit -logfile=test.log`
