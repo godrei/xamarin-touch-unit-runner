@@ -60,8 +60,11 @@ builder = Builder.new(options[:solution], options[:configuration], options[:plat
 dir = Dir.mktmpdir
 
 begin
+  # clone Touch.Unit
   `git clone git@github.com:spouliot/Touch.Unit.git #{dir}`
-  server_project_path = File.join(dir, 'Touch.Server', 'Touch.Server.csproj')
+  server_project_path = File.join(dir, 'Touch.Server/Touch.Server.csproj')
+
+  # build Touch.Unit server
   puts `xbuild #{server_project_path}`
   
   exe_files = []
@@ -74,24 +77,22 @@ begin
   	fail_with_message('Touch.Server.exe was not found')
   end
 
-  # The solution has to be built before runing the Touch.Unit tests
+  # Build solution under test
   builder.build_solution
-
   output = builder.generated_files
-
   fail_with_message('no output generated') if output.nil? || output.empty?
+  
   app_file = nil
-
   output.each do |_, project_output|
     app_file = project_output[:app] if project_output[:api] == Api::IOS
   end
 
   fail_with_message('*.app required to run Touch.Unit tests') unless app_file
 
-  # run app on simulator with mono debugger attached
+  # Run tests on simulator with debugger attached
   puts `mono --debug #{touch_server_exe} --launchsim #{app_file} -autoexit -logfile=test.log`
 
-  result = Hash.new
+  results = Hash.new
 
   # check test logs
   if File.exist?('test.log')
@@ -102,16 +103,18 @@ begin
         	line.gsub (/[a-zA-z]*: [0-9]*/) { |s|
         	  s.delete!(' ')
         	  test_result = s.split(/:/)
-        	  result[test_result.first] = test_result.last
+        	  results[test_result.first] = test_result.last
         	}
         end
       end
     end
-  else
-  	error_with_message('Cant find test logs file')
-  end
 
-  # show results
+    # remove logs file
+    FileUtils.remove_entry 'test.log'
+  else
+  	fail_with_message('Cant find test logs file')
+  end
+  
   raise 'Test failed' if result['Failed'] != '0'
 rescue => ex
   error_with_message(ex.inspect.to_s)
@@ -119,6 +122,6 @@ rescue => ex
   error_with_message(ex.backtrace.to_s)
   exit(1)
 ensure
-  # remove the directory.
+  # remove temp directory
   FileUtils.remove_entry dir
 end
