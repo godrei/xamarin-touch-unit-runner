@@ -1,2 +1,2 @@
 # xamarin-touch-unit-runner
-Touch.Unit step for Bitrise CI
+Touch.Unit tests runner step for Bitrise CI. Currently support only simulator runs.
