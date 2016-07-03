@@ -112,7 +112,7 @@ class Builder
         if command.include? 'mdtool'
           @generated_files = @analyzer.collect_generated_files(@configuration, @platform, @project_type_filter)
           @generated_files.each do |_, project_output|
-            app_file = project_output[:app] if project_output[:api] == Api::IOS
+            app_file = project_output[:app] if project_output[:api] == Api::IOS and project_output[:app]
           end
         end
       end
