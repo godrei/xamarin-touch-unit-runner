@@ -25,9 +25,9 @@ end
 #
 # Parse options
 options = {
-  solution: "/Users/olegoid/Projects/xamarin.ios.rocks/Rocks.sln",
-  configuration: "Debug",
-  platform: "iPhoneSimulator"
+  solution: nil,
+  configuration: nil,
+  platform: nil
 }
 
 parser = OptionParser.new do |opts|
