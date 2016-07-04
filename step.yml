@@ -1,7 +1,7 @@
 title: Touch.Unit runner
 summary: Touch.Unit runner
 description: |-
-  Executes a set of Touch.Unit tests on device or simulator
+  Executes a set of Touch.Unit tests on simulator
 website: https://github.com/olegoid/xamarin-touch-unit-runner
 source_code_url: https://github.com/olegoid/xamarin-touch-unit-runner
 support_url: https://github.com/olegoid/xamarin-touch-unit-runner/issues
