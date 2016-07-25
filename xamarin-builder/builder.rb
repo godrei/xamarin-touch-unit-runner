@@ -147,9 +147,7 @@ class Builder
     touch_unit_server = "#{directory}/Touch.Server.exe"
 
     begin
-      File.new(touch_unit_server)
-
-      File.open(touch_unit_server, "wb") do |exe|
+      File.open(touch_unit_server, "w+") do |exe|
         open("https://github.com/bitrise-steplib/Touch.Unit/releases/download/v1.0/Touch.Server.exe", "rb") do |read_file|
           exe.write(read_file.read)
         end
