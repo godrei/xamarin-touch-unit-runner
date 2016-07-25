@@ -1,3 +1,5 @@
+require 'open-uri'
+
 require_relative './analyzer'
 require_relative './common_constants'
 
@@ -142,20 +144,22 @@ class Builder
   private
 
   def get_touch_unit_server(directory)
-    # clone Touch.Unit
-    `git clone git@github.com:spouliot/Touch.Unit.git #{directory}`
-    server_project_path = File.join(directory, 'Touch.Server/Touch.Server.csproj')
+    touch_unit_server = "#{directory}/Touch.Server.exe"
 
-    # build Touch.Unit server
-    puts `xbuild #{server_project_path}`
+    begin
+      File.new(touch_unit_server)
 
-    exe_files = []
-    Find.find(File.join(directory, 'Touch.Server/bin/Debug/')) do |path|
-      exe_files << path if path =~ /.*\.exe$/
+      File.open(touch_unit_server, "wb") do |exe|
+        open("https://github.com/bitrise-steplib/Touch.Unit/releases/download/v1.0/Touch.Server.exe", "rb") do |read_file|
+          exe.write(read_file.read)
+        end
+      end
+    rescue => ex
+      error_with_message(ex.inspect.to_s)
+      error_with_message('--- Stack trace: ---')
+      error_with_message(ex.backtrace.to_s)
+      exit(1)
     end
-
-    touch_unit_server = exe_files.first
-    raise 'Touch.Server.exe was not found' unless touch_unit_server
 
     touch_unit_server
   end
