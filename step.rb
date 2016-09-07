@@ -56,8 +56,8 @@ fail_with_message('No configuration environment found') unless options[:configur
 
 #
 # Main
-builder = Builder.new(options[:solution], options[:configuration], options[:platform], nil)
 begin
+  builder = Builder.new(options[:solution], options[:configuration], options[:platform], nil)
   builder.run_nunit_lite_tests
 rescue => ex
   error_with_message(ex.inspect.to_s)
